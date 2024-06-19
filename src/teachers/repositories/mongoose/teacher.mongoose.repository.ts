@@ -15,14 +15,17 @@ export class TeacherMongooseRepository implements TeacherRepository {
     await createTeacher.save();
   }
 
-  getAllTeachers(limit: number, page: number): Promise<InterfaceTeacher[]> {
+  async getAllTeachers(
+    limit: number,
+    page: number,
+  ): Promise<InterfaceTeacher[]> {
     const offset = (page - 1) * limit;
 
-    return this.teacherModel.find().skip(offset).limit(limit).exec();
+    return await this.teacherModel.find().skip(offset).limit(limit).exec();
   }
 
-  getOneTeacher(id: string): Promise<InterfaceTeacher> {
-    return this.teacherModel.findById(id).exec();
+  async getOneTeacher(id: string): Promise<InterfaceTeacher> {
+    return await this.teacherModel.findById(id).exec();
   }
 
   async updateTeacher(

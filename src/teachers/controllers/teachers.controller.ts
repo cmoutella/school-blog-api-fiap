@@ -26,7 +26,7 @@ export class TeachersController {
 
   @Get(':id')
   async getOneTeacher(@Param('id') id: string) {
-    return this.teachersService.getOneTeacher(id);
+    return await this.teachersService.getOneTeacher(id);
   }
 
   @Put(':id')
@@ -34,7 +34,7 @@ export class TeachersController {
     @Param('id') id: string,
     @Body() data: Partial<InterfaceTeacher>,
   ) {
-    return this.teachersService.updateTeacher(id, data);
+    await this.teachersService.updateTeacher(id, data);
   }
 
   @Delete(':id')

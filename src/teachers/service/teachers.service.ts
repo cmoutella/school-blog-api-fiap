@@ -20,8 +20,6 @@ export class TeachersService {
   async getOneTeacher(id: string): Promise<InterfaceTeacher> {
     const teacher = await this.teacherRepository.getOneTeacher(id);
 
-    console.log('service :: getOneTeacher', teacher);
-
     if (!teacher) throw new NotFoundException('Teacher not found');
 
     return teacher;

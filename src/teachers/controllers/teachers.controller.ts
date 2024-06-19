@@ -6,11 +6,13 @@ import {
   Param,
   Post,
   Put,
+  UseGuards,
   UsePipes,
 } from '@nestjs/common';
 import { TeachersService } from '../service/teachers.service';
 import { z } from 'zod';
 import { ZodValidationPipe } from 'src/shared/pipe/zod-validation.pipe';
+import { AuthGuard } from 'src/shared/guards/auth.guard';
 
 const createTeacherSchema = z.object({
   name: z.string(),
@@ -29,6 +31,7 @@ type UpdateTeacher = z.infer<typeof updateTeacherSchema>;
 export class TeachersController {
   constructor(private readonly teachersService: TeachersService) {}
 
+  @UseGuards(AuthGuard)
   @UsePipes(new ZodValidationPipe(createTeacherSchema))
   @Post()
   async createTeacher(@Body() { name, age }: CreateTeacher) {
@@ -45,6 +48,7 @@ export class TeachersController {
     return await this.teachersService.getOneTeacher(id);
   }
 
+  @UseGuards(AuthGuard)
   @Put(':id')
   async updateTeacher(
     @Param('id') id: string,
@@ -53,6 +57,7 @@ export class TeachersController {
     await this.teachersService.updateTeacher(id, data);
   }
 
+  @UseGuards(AuthGuard)
   @Delete(':id')
   async deleteTeacher(@Param('id') id: string) {
     await this.teachersService.deleteTeacher(id);
